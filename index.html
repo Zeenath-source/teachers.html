@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teachers' Day - BCA Dept</title>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+body {
+  margin:0; min-height:100vh; overflow:hidden;
+  font-family:'Share Tech Mono', monospace;
+  background:#0a0a0a; color:#00ffcc;
+  display:flex; justify-content:center; align-items:center;
+  flex-direction:column; text-align:center; padding:20px;
+  opacity:0;
+  transform: scale(0.95);
+  transition: opacity 1s ease, transform 1s ease;
+}
+body.loaded { opacity:1; transform: scale(1); }
+
+canvas#binaryCanvas { position: fixed; top:0; left:0; z-index:0; }
+
+.particle {
+  position: fixed;
+  width: 6px; height: 6px;
+  background: #00ffcc;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: floatParticle linear infinite;
+  will-change: transform, opacity;
+}
+@keyframes floatParticle {
+  0% { transform: translateY(100vh) translateX(0) scale(0.5); opacity:0; }
+  50% { opacity:0.7; }
+  100% { transform: translateY(-10vh) translateX(20px) scale(1); opacity:0; }
+}
+
+.card {
+  position: relative; z-index:1;
+  background: rgba(10,10,10,0.85);
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 0 30px #00ffcc;
+  max-width: 600px;
+  width: 100%;
+  opacity:0;
+  transform: scale(0.95);
+  animation: cardFade 0.8s forwards 0.3s;
+  will-change: transform, opacity;
+}
+@keyframes cardFade { to { opacity:1; transform: scale(1); } }
+
+h1 {
+  font-size: clamp(20px,3vw,30px);
+  color: #00ffcc;
+  text-shadow: 0 0 2px #00ffcc, 0 0 4px #00ffcc;
+  margin-bottom:16px;
+  animation: pulse 2.5s infinite alternate;
+}
+@keyframes pulse { 0% { text-shadow: 0 0 1px #00ffcc,0 0 3px #00ffcc; } 100% { text-shadow:0 0 3px #00ffcc,0 0 6px #00ffcc; } }
+
+input, button {
+  font-size:16px; border:none; border-radius:12px; padding:12px 14px; outline:none;
+}
+input {
+  width:100%; background:#111; color:#00ffcc; margin-top:12px; border:1px solid #00ffcc;
+  transition: all 0.3s ease;
+}
+input:focus { border-color:#00ff99; box-shadow:0 0 8px #00ff99; }
+button {
+  margin-top:10px; background:#00ffcc; color:#000; cursor:pointer; font-weight:bold;
+  transition: all 0.3s ease;
+}
+button:hover { background:#00ff99; box-shadow:0 0 8px #00ff99; }
+
+#wishMessage, #quote, #closing { opacity:0; transition: opacity 0.6s ease; }
+#wishMessage { margin-top:16px; font-size: clamp(18px,2.5vw,24px); color:#00ffcc; min-height:40px; text-shadow:0 0 3px #00ffcc; }
+#quote { font-size: clamp(14px,2vw,20px); color:#00cc99; margin-top:12px; min-height:50px; font-style:italic; text-shadow:0 0 2px #00cc99; }
+#closing { margin-top:20px; font-weight:bold; color:#00ff99; text-shadow:0 0 3px #00ff99; }
+</style>
+</head>
+<body>
+
+<canvas id="binaryCanvas"></canvas>
+
+<div class="card">
+  <h1>To the mentors who light our path with knowledge and wisdom 💻🎓</h1>
+  <p>Enter your name to see your personalized wish:</p>
+  <input type="text" id="teacherName" placeholder="Enter your name">
+  <button id="goBtn">Celebrate 🎊</button>
+  <div id="wishMessage"></div>
+  <div id="quote"></div>
+  <div id="closing"></div>
+</div>
+
+<script>
+window.addEventListener('load', ()=>{ document.body.classList.add('loaded'); });
+
+// Binary rain
+const canvas = document.getElementById('binaryCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const binaryChars = "01";
+const fontSize = 16;
+const columns = Math.floor(canvas.width / fontSize);
+const drops = Array(columns).fill(1);
+
+function drawBinary() {
+  ctx.fillStyle = "rgba(10,10,10,0.05)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "#00ff33";
+  ctx.font = fontSize + "px monospace";
+
+  for(let i=0;i<columns;i++){
+    const text = binaryChars.charAt(Math.floor(Math.random()*binaryChars.length));
+    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+    drops[i]++;
+    if(drops[i]*fontSize > canvas.height && Math.random() > 0.975) drops[i]=0;
+  }
+}
+setInterval(drawBinary, 50);
+window.addEventListener('resize',()=>{ canvas.width=window.innerWidth; canvas.height=window.innerHeight; });
+// Floating particles
+for(let i=0;i<25;i++){
+  const p = document.createElement('div');
+  p.className='particle';
+  p.style.left = Math.random()*100+'vw';
+  p.style.animationDuration = (5+Math.random()*5)+'s';
+  document.body.appendChild(p);
+}
+
+// Confetti burst
+function confettiBurst(){
+  const confCount = 100;
+  for(let i=0;i<confCount;i++){
+    let x=Math.random()*window.innerWidth;
+    let y=0;
+    const particle=document.createElement('div');
+    particle.textContent = Math.random()>0.5?'0':'1';
+    particle.style.position='fixed';
+    particle.style.left=x+'px';
+    particle.style.top=y+'px';
+    particle.style.color='#00ffcc';
+    particle.style.fontWeight='bold';
+    particle.style.fontSize='16px';
+    particle.style.zIndex='2';
+    document.body.appendChild(particle);
+    let dy = 2+Math.random()*2.5;
+    let dx = -1 + Math.random()*2;
+    const fall = setInterval(()=>{
+      y+=dy; x+=dx;
+      particle.style.top = y+'px';
+      particle.style.left = x+'px';
+      if(y>window.innerHeight){ particle.remove(); clearInterval(fall);}
+    },16);
+  }
+  confetti({ particleCount: 120, spread: 100, origin: { y:0.6 } });
+}
+
+// Typewriter
+function typeWriter(text, el, speed=50, callback){
+  let i=0; el.textContent=""; el.style.opacity=1;
+  const timer = setInterval(()=>{
+    el.textContent += text.charAt(i); i++;
+    if(i>=text.length){ clearInterval(timer); if(callback) callback(); }
+  }, speed);
+}
+
+// Quotes
+const quotes = [
+  "Just like code, a teacher’s influence runs in infinite loops.",
+  "A good teacher is like a compiler: they transform our confusion into clarity.",
+  "Behind every successful algorithm is a teacher who taught the logic.",
+  "Teachers debug not just code, but also our lives.",
+  "You taught us Java, but you also taught us values that run forever."
+];
+
+const nameInput = document.getElementById('teacherName');
+const btn = document.getElementById('goBtn');
+const wish = document.getElementById('wishMessage');
+const quoteEl = document.getElementById('quote');
+const closing = document.getElementById('closing');
+
+let wishDisplayed = false;
+
+function showWish(){
+  if(wishDisplayed) return;
+  const name = nameInput.value.trim();
+  if(!name){ 
+    wish.textContent="Please enter your name!"; 
+    quoteEl.textContent=""; closing.textContent=""; 
+    return; 
+  }
+  wishDisplayed = true;
+  wish.textContent = `Happy Teachers' Day, ${name} Mam! 🎉`;
+  wish.style.opacity=1;
+
+  const randomQuote = quotes[Math.floor(Math.random()*quotes.length)];
+  confettiBurst();
+  typeWriter(randomQuote, quoteEl, 50, ()=>{
+    closing.textContent="With love & respect, From all BCA Students 💻❤️";
+    closing.style.opacity=1;
+  });
+}
+
+btn.addEventListener('click', showWish);
+nameInput.addEventListener('keydown', e=>{ if(e.key==='Enter') showWish(); });
+</script>
+
+</body>
+</html>
