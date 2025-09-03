@@ -140,7 +140,6 @@ function typeWriter(text, el, speed=50, callback){
     if(i>=text.length){ clearInterval(timer); if(callback) callback(); }
   }, speed);
 }
-
 // Quotes
 const quotes = [
   "Just like code, a teacher’s influence runs in infinite loops.",
@@ -149,15 +148,12 @@ const quotes = [
   "Teachers debug not just code, but also our lives.",
   "You taught us Java, but you also taught us values that run forever."
 ];
-
 const nameInput = document.getElementById('teacherName');
 const btn = document.getElementById('goBtn');
 const wish = document.getElementById('wishMessage');
 const quoteEl = document.getElementById('quote');
 const closing = document.getElementById('closing');
-
 let wishDisplayed = false;
-
 function showWish(){
   if(wishDisplayed) return;
   const name = nameInput.value.trim();
@@ -177,13 +173,12 @@ function showWish(){
     closing.style.opacity=1;
   });
 }
-
 btn.addEventListener('click', showWish);
 nameInput.addEventListener('keydown', e=>{ if(e.key==='Enter') showWish(); });
 </script>
-
 </body>
 </html>
+
 
 
 
