@@ -165,7 +165,10 @@ function showWish(){
   wishDisplayed = true;
   wish.textContent = `Happy Teachers' Day, ${name} Mam! 🎉`;
   wish.style.opacity=1;
-
+  quoteEl.textContent = "";          
+  quoteEl.style.opacity = 0;         
+  closing.textContent = "";           
+  closing.style.opacity = 0;
   const randomQuote = quotes[Math.floor(Math.random()*quotes.length)];
   typeWriter(randomQuote, quoteEl, 50, ()=>{
     closing.textContent="With love & respect, From all BCA Students 💻❤️";
@@ -177,6 +180,7 @@ nameInput.addEventListener('keydown', e=>{ if(e.key==='Enter') showWish(); });
 </script>
 </body>
 </html>
+
 
 
 
