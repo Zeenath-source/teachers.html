@@ -132,35 +132,6 @@ for(let i=0;i<25;i++){
   p.style.animationDuration = (5+Math.random()*5)+'s';
   document.body.appendChild(p);
 }
-
-// Confetti burst
-function confettiBurst(){
-  const confCount = 100;
-  for(let i=0;i<confCount;i++){
-    let x=Math.random()*window.innerWidth;
-    let y=0;
-    const particle=document.createElement('div');
-    particle.textContent = Math.random()>0.5?'0':'1';
-    particle.style.position='fixed';
-    particle.style.left=x+'px';
-    particle.style.top=y+'px';
-    particle.style.color='#00ffcc';
-    particle.style.fontWeight='bold';
-    particle.style.fontSize='16px';
-    particle.style.zIndex='2';
-    document.body.appendChild(particle);
-    let dy = 2+Math.random()*2.5;
-    let dx = -1 + Math.random()*2;
-    const fall = setInterval(()=>{
-      y+=dy; x+=dx;
-      particle.style.top = y+'px';
-      particle.style.left = x+'px';
-      if(y>window.innerHeight){ particle.remove(); clearInterval(fall);}
-    },16);
-  }
-  confetti({ particleCount: 120, spread: 100, origin: { y:0.6 } });
-}
-
 // Typewriter
 function typeWriter(text, el, speed=50, callback){
   let i=0; el.textContent=""; el.style.opacity=1;
@@ -213,5 +184,6 @@ nameInput.addEventListener('keydown', e=>{ if(e.key==='Enter') showWish(); });
 
 </body>
 </html>
+
 
 
