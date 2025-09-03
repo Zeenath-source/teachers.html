@@ -167,7 +167,6 @@ function showWish(){
   wish.style.opacity=1;
 
   const randomQuote = quotes[Math.floor(Math.random()*quotes.length)];
-  confettiBurst();
   typeWriter(randomQuote, quoteEl, 50, ()=>{
     closing.textContent="With love & respect, From all BCA Students 💻❤️";
     closing.style.opacity=1;
@@ -178,6 +177,7 @@ nameInput.addEventListener('keydown', e=>{ if(e.key==='Enter') showWish(); });
 </script>
 </body>
 </html>
+
 
 
 
